@@ -1,0 +1,14 @@
+{
+    blogs{
+        _id
+        title
+        text
+        short_text
+        image
+        category{
+            _id
+            title
+        }
+        tags
+    }
+}

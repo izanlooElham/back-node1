@@ -1,0 +1,24 @@
+{
+    products{
+        _id
+        title
+        text
+        short_text
+        images
+        category{
+            _id
+            title
+        }
+        tags
+        price
+        count
+        discount
+        features{
+            height
+            width
+            weight
+            length
+        }
+
+    }
+}

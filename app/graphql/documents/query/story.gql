@@ -1,0 +1,9 @@
+
+{
+    stories{
+        _id
+        title
+        videoAddress
+        time
+    }
+}

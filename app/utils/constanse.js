@@ -1,0 +1,14 @@
+module.exports={
+    ACCESS_TOKEN_SECRET_KEY: "D91AC11556B7C5DBFE3F2E175442E84A67C8B7097502BD01CC521956914B7D0E",
+    REFRESH_TOKEN_SECRET_KEY: "EEB7D5356D0051017E6C361DB2361295E1F74469673778451BEA8D5A3EA430C1",
+    ROLES: Object.freeze({
+        USER:"USER",
+        ADMIN:"ADMIN"
+    }),
+    PERMISSIONS: Object.freeze({
+        USER:["profile"],
+        ADMIN:["all"],
+        ALL:["all"]
+    }),
+    MONGO_ID_PATTERN: /^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i,
+}

@@ -1,0 +1,18 @@
+mutation{
+    reateCommentForBlog(
+        comment: "salam azizam"
+        blogID:"62a5cbfhuejdiehfufhw9fifi"
+        parent:"62a5cbfhuejdiehfufhw9fifi"
+        statusCode
+        data
+    )
+}
+mutation{
+    reateCommentForProduct(
+        comment: "salam azizam" 
+        productID:"62a5cbfhuejdiehfufhw9fifi"
+        parent:"62a5cbfhuejdiehfufhw9fifi"
+        statusCode
+        data
+    )
+}
