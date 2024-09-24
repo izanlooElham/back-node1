@@ -1,0 +1,16 @@
+mutation {
+RemoveProductFromBasket (
+    productID : "6279eaa5579ea4defa9e17a9"
+  ){
+    statusCode
+    data
+  }
+}
+mutation {
+  AddProductToBasket(
+    productID: "6279eaa5579ea4defa9e17a9"
+  ){
+    statusCode
+    data
+  }
+}

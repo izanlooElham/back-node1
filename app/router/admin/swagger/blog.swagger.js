@@ -52,6 +52,7 @@
  *                  -   category
  *                  -   image
  *                  -   tags
+ *                  -   reference
  *              properties:
  *                  title:
  *                      type: string
@@ -71,13 +72,21 @@
  *                  category:
  *                      type: string
  *                      description: the category of blog
+ *                  reference:
+ *                      type: string
+ *                      description: the refrence of blogs
  */
 /**
  * @swagger
  *  /admin/blogs:
  *      get:
  *          tags: [Blog(Admin-Panel)]
- *          summary: get all blogs  
+ *          summary: get all blogs 
+ *          parameters:
+ *              -   in: query
+ *                  name: search
+ *                  type: string
+ *                  description: text for search in title, short_text 
  *          responses:
  *              200:
  *                  description: success
@@ -108,6 +117,34 @@
  */
 /**
  * @swagger
+ *  components:
+ *      schemas:
+ *         Update-Blog:
+ *              type: object
+ *              properties:
+ *                  title: 
+ *                      type: string
+ *                      description: the title of product
+ *                  text: 
+ *                      type: string
+ *                      description: the text of product
+ *                  short_text: 
+ *                      type: string
+ *                      description: the short_text of product
+ *                  image: 
+ *                      type: string
+ *                  tags: 
+ *                      type: string
+ *                      description: the title of product
+ *                  category: 
+ *                      type: string
+ *                      description: the title of product
+ *                  reference:
+ *                      type: string
+ *                      description: the refrence of blogs
+ */
+/**
+ * @swagger
  *  /admin/blogs/update/{id}:
  *      patch:
  *          tags: [Blog(Admin-Panel)]
@@ -124,7 +161,7 @@
  *              content:
  *                  multipart/form-data:
  *                      schema:
- *                          $ref: '#/components/schemas/Blog'
+ *                          $ref: '#/components/schemas/Update-Blog'
  *          responses:
  *              200:
  *                  description: success

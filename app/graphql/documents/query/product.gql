@@ -1,24 +1,39 @@
 {
-    products{
-        _id
-        title
-        text
-        short_text
-        images
-        category{
-            _id
-            title
-        }
-        tags
-        price
-        count
-        discount
-        features{
-            height
-            width
-            weight
-            length
-        }
-
+  products{
+    _id
+    title
+    short_text
+    text
+    tags
+    images
+    category {
+      title
+      _id
     }
+    features {
+      height
+      width
+      weight
+      length
+      
+    }
+    comments{
+      _id
+      comment
+      user {
+        first_name
+        last_name
+      }
+    }
+     bookmarks{
+      first_name
+      last_name
+      _id
+    }
+    likes{
+       first_name
+      last_name
+      _id 
+    }
+  }
 }

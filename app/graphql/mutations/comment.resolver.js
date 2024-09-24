@@ -1,13 +1,13 @@
+const mongoose = require("mongoose");
 const {  GraphQLString } = require("graphql");
+const { ResponseType } = require("../typeDefs/public.types");
 const { VerifyAccessTokenInGraphQL } = require("../../http/midlewares/verifyAccessToen");
-const { BlogModel } = require("../../models/blog");
 const createError=require("http-errors")
 const {StatusCodes: HttpStatus}=require("http-status-codes");
-const { ResponseType } = require("../typeDefs/public.types");
 const { copyObject } = require("../../utils/functions");
-const mongoose = require("mongoose/lib/mongoose");
 const { checkExistProduct, checkExistBlog } = require("../utils");
-const { ProductModel } = require("../../models/product");
+const { BlogModel } = require("../../models/blog");
+const { ProductModel } = require("../../models/product.js"); 
 
 const CreateCommentForBlog={
     type: ResponseType,
@@ -69,62 +69,58 @@ const CreateCommentForBlog={
     }
 }
 
-const CreateCommentForProduct={
+const CreateCommentForProduct = {
     type: ResponseType,
-    args:{
+    args : {
         comment: {type: GraphQLString},
-        productID:{type: GraphQLString},
-        parent:{type: GraphQLString}
+        productID: {type: GraphQLString},
+        parent: {type: GraphQLString},
     },
-    resolve: async (_,args, context)=>{
-        const {req}= context
-        const user=await VerifyAccessTokenInGraphQL(req)
-        const {comment, productID, parent}= args
-        if(!mongoose.isValidObjectId(productID)) throw createError.BadRequest("شناسه ارسال شده صحیح نمیباشد")
+    resolve : async (_, args, context) => {
+        const {req} = context;
+         const user = await VerifyAccessTokenInGraphQL(req)
+        const {comment, productID, parent} = args
+        if(!mongoose.isValidObjectId(productID)) throw createError.BadGateway("شناسه محصول ارسال شده صحیح نمیباشد")
         await checkExistProduct(productID)
         if(parent && mongoose.isValidObjectId(parent)){
-            const commentDocument= await getComment(ProductModel, parent)
+            const commentDocument = await getComment(ProductModel, parent)
             if(commentDocument && !commentDocument?.openToComment) throw createError.BadRequest("ثبت پاسخ مجاز نیست")
-            const createAnswerResult= await ProductModel.updateOne({
+            const createAnswerResult = await ProductModel.updateOne({
                 _id: productID,
                 "comments._id": parent
-        },{
-            $push:{
-                "comments.$.answers":{
-                    comment,
-                    user: user._id,
-                    show: false,
-                    openToComment: false
-                }
-              
-            }
-        })
-        if(!createAnswerResult.modifiedCount) throw createError.InternalServerError("ثبت پاسخ انجام نشد")
-        return {
-            statusCode : HttpStatus.CREATED,
-            data:{
-                message: "پاسخ شما با موفقیت ثبت شد"
-                }
-
-        }
-        
-        }else{
-            await ProductModel.updateOne({_id: productID},{
-                    $push:{
-                        comments:{
-                            comment,
-                            user:user._id,
-                            show: false,
-                            openToComment: true
-                        }
+            }, {
+                $push: {
+                    "comments.$.answers": {
+                        comment,
+                        user: user._id,
+                        show: false,
+                        openToComment: false
                     }
-                })
-
+                }
+            });
+            if(!createAnswerResult.modifiedCount) {
+                throw createError.InternalServerError("ثبت پاسخ انجام نشد")
+            }
+            return {
+                statusCode: HttpStatus.CREATED,
+                data : {
+                    message: "پاسخ شما با موفقیت ثبت شد"
+                }
+            }
+        }else{
+            await ProductModel.updateOne({_id: productID}, {
+                $push : {comments : {
+                    comment, 
+                    user: user._id, 
+                    show : false,
+                    openToComment : true
+                }}
+            })
         }
         return {
-            statusCode:HttpStatus.CREATED,
-            data:{
-                message: "ثبت نظر با موفقیت انجام شد و پس از تایید در وبسایت قرار میگیرد"
+            statusCode: HttpStatus.CREATED,
+            data : {
+                message: "ثبت نظر با موفقیت انجام شد پس از تایید در وبسایت قرار میگیرد"
             }
         }
     }

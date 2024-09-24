@@ -14,16 +14,21 @@ const BookmarkProduct={
         productID:{type: GraphQLString}
     },
     resolve:async(_,args,context)=>{
+        console.log("a")
         const {req}= context
+        console.log("b")
         const user=await VerifyAccessTokenInGraphQL(req)
+        console.log("c")
         const {productID }= args 
+        console.log("d")
         await checkExistProduct(productID)
+        console.log("e")
         let Bookmarkedproduct =await ProductModel.findOne({
             _id: productID,
             bookmarks: user._id
         })
        
-        const updateQuery= likedproduct? {$pull:{bookmarks: user._id}} : {$push:{ bookmarks: user._id}}
+        const updateQuery= Bookmarkedproduct? {$pull:{bookmarks: user._id}} : {$push:{ bookmarks: user._id}}
         await ProductModel.updateOne({_id:productID}, updateQuery)
         let message;
         if( !Bookmarkedproduct){

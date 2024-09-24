@@ -12,9 +12,9 @@ class BlogController extends Controller{
             const blogDataBody=await createBlogSchema.validateAsync(req.body)
             req.body.image=path.join(blogDataBody.fileUploadPath, blogDataBody.filename)
             req.body.image=  req.body.image.replace(/\\/g,"/")
-            const {title, text, short_text,tags, category}=blogDataBody 
+            const {title, text, short_text,tags, category , reference}=blogDataBody 
             const image=req.body.image
-            const blog=await BlogModel.create({title, text, short_text,tags,image, category})
+            const blog=await BlogModel.create({title, text, short_text,tags,image, category, reference})
             return res.status(HttpStatus.CREATED).json({
                 status:HttpStatus.CREATED,
                 data:{
@@ -44,20 +44,34 @@ class BlogController extends Controller{
     }
     async getListOfBlogs(req, res, next){
         try {
-            const blogs=await BlogModel.aggregate([
-                {$match:{}},
-                {
-                    $lookup:{
-                        from:"categories",
-                        foreignField:"_id",
-                        localField:"category",
-                        as:"category"
-                    }
-                },
-                {
-                    $unwind:"$category"
-                }
-            ])
+            // const blogs=await BlogModel.aggregate([
+            //     {$match:{}},
+            //     // {
+            //     //     $lookup:{
+            //     //         from:"categories",
+            //     //         foreignField:"_id",
+            //     //         localField:"category",
+            //     //         as:"category"
+            //     //     }
+            //     // },
+            //     // {
+            //     //     $unwind:"$category"
+            //     // }
+            // ])
+            const search=req?.query?.search || ""
+            let blogs;
+            if(search){
+                blogs=await BlogModel
+                .find({
+                    $text:{$search: new RegExp(search, "ig")}})
+                .populate([
+                    { path:"category",select:{title:1}}
+                 ])
+            }else{
+                blogs=await BlogModel.find({}).populate([
+                   { path:"category",select:{title:1}}
+                ])
+            }
             return res.status(HttpStatus.OK).json({
                 statusCode:HttpStatus.OK,
                 data:{

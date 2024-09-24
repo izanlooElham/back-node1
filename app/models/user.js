@@ -8,8 +8,8 @@ const BasketSchema= new mongoose.Schema({
     products:{type:[productSchema], default:[]}
 })
 const Schema= new mongoose.Schema({
-    first_name:{type:String,},
-    last_name:{type:String,},
+    first_name:{type:String},
+    last_name:{type:String},
     address:{type:String, },
     postalCode:{type:String, },
     city:{type:String, },

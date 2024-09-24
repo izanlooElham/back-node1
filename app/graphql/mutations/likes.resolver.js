@@ -18,16 +18,21 @@ const LikeProduct={
         const user=await VerifyAccessTokenInGraphQL(req)
         const {productID }= args 
         await checkExistProduct(productID)
+        console.log("a")
         let likedproduct =await ProductModel.findOne({
             _id: productID,
             likes: user._id
         })
+        console.log("b")
         let dislikedproduct =await ProductModel.findOne({
             _id: productID,
             dislikes: user._id
         })
+        console.log("c")
         const updateQuery= likedproduct? {$pull:{likes: user._id}} : {$push:{ likes: user._id}}
+        console.log("d")
         await ProductModel.updateOne({_id:productID}, updateQuery)
+        console.log("e")
         let message;
         if( !likedproduct){
            if(dislikedproduct) await ProductModel.updateOne({_id: productID},{$pull:{dislikes:user._id}})

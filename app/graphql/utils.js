@@ -1,6 +1,7 @@
 
 const { Kind } = require("graphql");
-
+const { ProductModel } = require("../models/product");
+const createError=require("http-errors")
 
 function parseObject(valueNode){
     const value=Object.create(null)
@@ -54,7 +55,7 @@ async function checkExistBlog(id){
     if(!blog) throw createError.NotFound("بلاگی با این مشخصات یافت نشد")
     return blog
 }
-async function checkExistProduct(){
+async function checkExistProduct(id){
     const product=await ProductModel.findById(id)
     if(!product) throw createError.NotFound("بلاگی با این مشخصات یافت نشد")
     return product 

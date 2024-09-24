@@ -1,18 +1,19 @@
-mutation{
-    reateCommentForBlog(
-        comment: "salam azizam"
-        blogID:"62a5cbfhuejdiehfufhw9fifi"
-        parent:"62a5cbfhuejdiehfufhw9fifi"
-        statusCode
-        data
-    )
+mutation {
+  reateCommentForBlog(
+    comment: "salam azizam", 
+    productID: "66e7ee811dd6c9af604fb8ac"
+  ){
+    statusCode
+    data
+  }
 }
-mutation{
-    reateCommentForProduct(
-        comment: "salam azizam" 
-        productID:"62a5cbfhuejdiehfufhw9fifi"
-        parent:"62a5cbfhuejdiehfufhw9fifi"
-        statusCode
-        data
-    )
+
+mutation {
+  CreateCommentForProduct(
+    comment: "salam azizam", 
+    productID: "66e7ee811dd6c9af604fb8ac"
+  ){
+    statusCode
+    data
+  }
 }

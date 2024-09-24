@@ -1,15 +1,15 @@
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 const { commentSchema } = require("../http/validators/public.schema");
 
 
-const Schema=new mongoose.Schema({
+const ProductSchema =new mongoose.Schema({
     title:{type:String, required:true},
     short_text: {type: String, required:true},
     text:{type:String, required:true},
     images:{type:[String], required:true},
     tags:{type:[String], default:[]},
     category: {type:mongoose.Types.ObjectId, ref:"category", required: true},
-    comments:{type:[commentSchema],default:[]},
+    comments : {type: [commentSchema], default : []},
     likes:{type:[mongoose.Types.ObjectId],ref:"user", default:[]},
     dislikes:{type:[mongoose.Types.ObjectId],ref:"user", default:[]},
     bookmarks:{type: [mongoose.Types.ObjectId],ref:"user",default:[]},
@@ -26,8 +26,8 @@ const Schema=new mongoose.Schema({
     },
    
 })
-Schema.index({text:"text", short_text:"text", title:"text"})
+ProductSchema.index({text:"text", short_text:"text", title:"text"})
 
 module.exports={
-    ProductModel: mongoose.model("product", Schema)
+    ProductModel: mongoose.model("product", ProductSchema)
 }

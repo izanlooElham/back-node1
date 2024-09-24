@@ -1,0 +1,16 @@
+mutation {
+  BookmarkProduct(
+    productID: "66e7ee811dd6c9af604fb8ac"
+  ){
+    statusCode
+    data
+  }
+}
+mutation {
+  BookmarkBlog(
+    blogID: "66e7ee811dd6c9af604fb8ac"
+  ){
+    statusCode
+    data
+  }
+}
